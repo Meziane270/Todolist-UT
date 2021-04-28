@@ -22,6 +22,26 @@ public class UserTest {
 
     @Before
     public void setUp() {
+        String validMail = "validMail@gmail.com";
+        String invalidMail = "invalidMail@.com";
+        String validPassword = "PasswordValid";
+        String invalidTooLongPassword = "invalid";
+        String invalidTooSmallPassword = "TooBigPasswordToBeAValidUser123456789";
+        String validFirstname = "Firstname";
+        String invalidFirstname = "";
+        String validLastname = "Lastname";
+        String invalidLastname = "";
+        Date validAge = new GregorianCalendar(2000, Calendar.JANUARY, 1).getTime();
+        Date invalidAge = new GregorianCalendar(2020, Calendar.JANUARY, 1).getTime();
+
+        validUser = new User(validMail, validFirstname, validLastname, validPassword, validAge);
+        invalidUser = new User(invalidMail, invalidFirstname, invalidLastname, invalidTooSmallPassword, invalidAge);
+        invalidUserLongPassword = new User(validMail, validFirstname, validLastname, invalidTooLongPassword, validAge);
+        invalidUserShortPassword = new User(validMail, validFirstname, validLastname, invalidTooSmallPassword, validAge);
+        invalidUserBadMail = new User(invalidMail, validFirstname, validLastname, validPassword, validAge);
+        invalidUserBadFirstname = new User(validMail, invalidFirstname, validLastname, validPassword, validAge);
+        invalidUserBadLastname = new User(validMail, validFirstname, invalidLastname, validPassword, validAge);
+        invalidUserBadAge = new User(validMail, validFirstname, validLastname, validPassword, invalidAge);
     }
 
     @Test
