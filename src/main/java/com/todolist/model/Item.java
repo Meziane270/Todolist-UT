@@ -6,13 +6,15 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class Item {
+    @NonNull
     private String name;
+    @NonNull
     private String content;
-    @Singular
-    private final LocalDate creationDate = LocalDate.now();
+    private LocalDate creationDate = LocalDate.now();
 
 
 }
