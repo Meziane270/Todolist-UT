@@ -9,7 +9,6 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class TodoList {
-    private User user;
     @Singular
     private final ArrayList<Item> items = new ArrayList<>();
 
