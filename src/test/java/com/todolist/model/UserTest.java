@@ -3,9 +3,7 @@ package com.todolist.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -31,8 +29,8 @@ public class UserTest {
         String invalidFirstname = "";
         String validLastname = "Lastname";
         String invalidLastname = "";
-        Date validAge = new GregorianCalendar(2000, Calendar.JANUARY, 1).getTime();
-        Date invalidAge = new GregorianCalendar(2020, Calendar.JANUARY, 1).getTime();
+        LocalDate validAge = LocalDate.of(2000,1,1);
+        LocalDate invalidAge =  LocalDate.of(2020,1,1);
 
         validUser = new User(validMail, validFirstname, validLastname, validPassword, validAge);
         invalidUser = new User(invalidMail, invalidFirstname, invalidLastname, invalidTooSmallPassword, invalidAge);

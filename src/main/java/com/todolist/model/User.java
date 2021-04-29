@@ -2,7 +2,9 @@ package com.todolist.model;
 
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.regex.Pattern;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,9 +17,14 @@ public class User {
     private String lastname;
     private String firstname;
     private String password;
-    private Date birthDate;
+    private LocalDate birthDate;
 
     public boolean isValid() {
-        return false;
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(emailRegex);
+        return Period.between(birthDate, LocalDate.now()).getYears() >= 13 && !firstname.isBlank() && !lastname.isBlank() && pat.matcher(email).matches() && password.length() >= 8 && password.length() <= 30;
     }
 }
