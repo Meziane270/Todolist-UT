@@ -1,9 +1,6 @@
 package com.todolist.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 
@@ -13,6 +10,7 @@ import java.util.ArrayList;
 @Setter
 public class TodoList {
     private User user;
+    @Singular
     private ArrayList<Item> items = new ArrayList<>();
 
     public void addItem(Item item) {

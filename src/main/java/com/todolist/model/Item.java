@@ -1,9 +1,6 @@
 package com.todolist.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 public class Item {
     private String name;
     private String content;
+    @Singular
     private LocalDate creationDate = LocalDate.now();
 
 
