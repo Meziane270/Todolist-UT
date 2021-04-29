@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +14,7 @@ import java.util.Date;
 public class Item {
     private String name;
     private String content;
-    private Date creationDate;
+    private LocalDate creationDate = LocalDate.now();
 
 
 }

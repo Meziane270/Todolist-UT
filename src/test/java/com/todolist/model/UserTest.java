@@ -29,8 +29,8 @@ public class UserTest {
         String invalidFirstname = "";
         String validLastname = "Lastname";
         String invalidLastname = "";
-        LocalDate validAge = LocalDate.of(2000,1,1);
-        LocalDate invalidAge =  LocalDate.of(2020,1,1);
+        LocalDate validAge = LocalDate.of(2000, 1, 1);
+        LocalDate invalidAge = LocalDate.of(2020, 1, 1);
 
         validUser = new User(validMail, validFirstname, validLastname, validPassword, validAge);
         invalidUser = new User(invalidMail, invalidFirstname, invalidLastname, invalidTooSmallPassword, invalidAge);
@@ -62,7 +62,6 @@ public class UserTest {
         assertFalse(invalidUserShortPassword.isValid());
     }
 
-
     @Test
     public void isTooLongPassword() {
         assertFalse(invalidUserLongPassword.isValid());
@@ -82,5 +81,4 @@ public class UserTest {
     public void isInvalidAge() {
         assertFalse(invalidUserBadAge.isValid());
     }
-
 }
