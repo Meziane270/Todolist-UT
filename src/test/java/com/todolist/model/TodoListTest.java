@@ -3,13 +3,12 @@ package com.todolist.model;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TodoListTest {
-
     private String uniqueItemName;
     private TodoList emptyTodoList;
     private TodoList fullTodoList;
@@ -17,13 +16,18 @@ public class TodoListTest {
 
     @Before
     public void setUp() {
-        emptyTodoList = new TodoList();
-        oneItemTodoList = new TodoList();
         uniqueItemName = "unique";
-        oneItemTodoList.addItem(new Item(uniqueItemName,"aaaa", LocalDate.of(2020,1,1)));
+        User user = new User();
+        user.setEmail("email@email.com");
+        emptyTodoList = new TodoList();
+        emptyTodoList.setUser(user);
+        oneItemTodoList = new TodoList();
+        oneItemTodoList.setUser(user);
+        oneItemTodoList.addItem(new Item(uniqueItemName,"aaaa", LocalDateTime.of(2020,1,1,0,0,0)));
         fullTodoList = new TodoList();
+        fullTodoList.setUser(user);
         for(int i=0;i<10;i++){
-            fullTodoList.addItem(new Item(String.valueOf(i),"bbbb", LocalDate.of(2020,i+1,1)));
+            fullTodoList.addItem(new Item(String.valueOf(i),"bbbb", LocalDateTime.of(2020,i+1,1,0,0,0)));
         }
     }
 
@@ -49,4 +53,10 @@ public class TodoListTest {
         assertFalse(oneItemTodoList.getItems().contains(item));
     }
 
+    @Test
+    public void addBeforeCoolDown(){
+        emptyTodoList.addItem(new Item("1","a"));
+        emptyTodoList.addItem(new Item("2","a"));
+        assertFalse(emptyTodoList.getItems().contains( new Item("2","a")));
+    }
 }

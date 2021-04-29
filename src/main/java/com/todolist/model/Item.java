@@ -2,7 +2,7 @@ package com.todolist.model;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +14,9 @@ public class Item {
     private String name;
     @NonNull
     private String content;
-    private LocalDate creationDate = LocalDate.now();
+    private LocalDateTime creationDate = LocalDateTime.now();
 
-
+    public boolean isValid() {
+        return true;
+    }
 }

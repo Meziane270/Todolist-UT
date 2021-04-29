@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @Setter
 public class User {
     @Singular
-    private final TodoList todoList = new TodoList();
+    private final TodoList todoList = new TodoList(this);
     private String email;
     private String lastname;
     private String firstname;
