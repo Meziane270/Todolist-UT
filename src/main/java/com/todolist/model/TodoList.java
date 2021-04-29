@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @Setter
 public class TodoList {
     private User user;
-    private ArrayList<Item> items;
+    private ArrayList<Item> items = new ArrayList<>();
 
     public void addItem(Item item) {
 
