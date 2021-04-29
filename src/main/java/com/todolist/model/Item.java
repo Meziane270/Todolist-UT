@@ -12,7 +12,7 @@ public class Item {
     private String name;
     private String content;
     @Singular
-    private LocalDate creationDate = LocalDate.now();
+    private final LocalDate creationDate = LocalDate.now();
 
 
 }

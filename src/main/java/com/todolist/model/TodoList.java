@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class TodoList {
     private User user;
     @Singular
-    private ArrayList<Item> items = new ArrayList<>();
+    private final ArrayList<Item> items = new ArrayList<>();
 
     public void addItem(Item item) {
 
