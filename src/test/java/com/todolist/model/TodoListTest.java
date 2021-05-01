@@ -3,7 +3,6 @@ package com.todolist.model;
 import com.todolist.service.EmailSenderService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import static org.mockito.Matchers.anyString;
@@ -12,8 +11,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class TodoListTest {
-    private String uniqueItemName;
-    private String email;
     private TodoList emptyTodoList;
     private TodoList fullTodoList;
     private TodoList oneItemTodoList;
@@ -22,36 +19,33 @@ public class TodoListTest {
     private EmailSenderService emailSenderService;
     private Item validItem;
     private Item invalidItem;
-    private int sendMailTestCount;
 
 
     @Before
     public void setUp() {
-        sendMailTestCount = 7;
-        email = "email@email.com";
-        uniqueItemName = "not-unique";
+        String email = "email@email.com";
+        String uniqueItemName = "not-unique";
         User user = new User();
         user.setEmail(email);
-        emptyTodoList = new TodoList();
-        emptyTodoList.setUser(user);
-
-        oneItemTodoList = Mockito.spy(TodoList.class);
-        Mockito.when(oneItemTodoList.containsItemWithName(Mockito.anyString())).thenReturn(true);
-        Mockito.when(oneItemTodoList.getItemsCount()).thenReturn(1);
-        //Mockito.when(oneItemTodoList.lastInsertedItemInLastThirtyMinutes(Mockito.any);
-
-        fullTodoList = Mockito.spy(TodoList.class);
-        Mockito.when(fullTodoList.getItemsCount()).thenReturn(10);
-        fullTodoList.setUser(user);
-
-        validItem = Mockito.spy(new Item("name","aaa"));
-        Mockito.when(validItem.isValid()).thenReturn(true);
-
-        invalidItem = Mockito.spy(new Item("name","aaa"));
-        Mockito.when(invalidItem.isValid()).thenReturn(false);
 
         emailSenderService = Mockito.mock(EmailSenderService.class);
 
+        validItem = Mockito.spy(new Item(uniqueItemName,"aaa"));
+        Mockito.when(validItem.isValid()).thenReturn(true);
+
+        invalidItem = Mockito.spy(new Item(uniqueItemName,"aaa"));
+        Mockito.when(invalidItem.isValid()).thenReturn(false);
+
+        emptyTodoList = new TodoList();
+        emptyTodoList.setUser(user);
+
+        oneItemTodoList = Mockito.spy(new TodoList());
+        oneItemTodoList.addItem(new Item(uniqueItemName,"aaa"));
+        Mockito.when(oneItemTodoList.getItemsCount()).thenReturn(1);
+
+        fullTodoList = Mockito.spy(new TodoList());
+        Mockito.when(fullTodoList.getItemsCount()).thenReturn(10);
+        fullTodoList.setUser(user);
 
         sevenItemTodoList = Mockito.spy(new TodoList(user));
         Mockito.when(sevenItemTodoList.getItemsCount()).thenReturn(7).thenReturn(8);
@@ -84,9 +78,8 @@ public class TodoListTest {
 
     @Test
     public void insertAlreadyUsedNameItem(){
-        Item item = new Item(uniqueItemName,"aaa");
-        oneItemTodoList.addItem(item);
-        assertFalse(oneItemTodoList.getItems().contains(item));
+        oneItemTodoList.addItem(validItem);
+        assertFalse(oneItemTodoList.getItems().contains(validItem));
     }
 
     @Test
