@@ -1,41 +1,77 @@
 package com.todolist.model;
 
+import com.todolist.service.EmailSenderService;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
-import java.time.LocalDateTime;
-
+import static org.mockito.Matchers.anyString;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 public class TodoListTest {
     private String uniqueItemName;
+    private String email;
     private TodoList emptyTodoList;
     private TodoList fullTodoList;
     private TodoList oneItemTodoList;
+    private TodoList sevenItemTodoList;
+    private TodoList eightItemTodoList;
+    private EmailSenderService emailSenderService;
+    private Item validItem;
+    private Item invalidItem;
+    private int sendMailTestCount;
+
 
     @Before
     public void setUp() {
-        uniqueItemName = "unique";
+        sendMailTestCount = 7;
+        email = "email@email.com";
+        uniqueItemName = "not-unique";
         User user = new User();
-        user.setEmail("email@email.com");
+        user.setEmail(email);
         emptyTodoList = new TodoList();
         emptyTodoList.setUser(user);
-        oneItemTodoList = new TodoList();
-        oneItemTodoList.setUser(user);
-        oneItemTodoList.addItem(new Item(uniqueItemName,"aaaa", LocalDateTime.of(2020,1,1,0,0,0)));
-        fullTodoList = new TodoList();
+
+        oneItemTodoList = Mockito.spy(TodoList.class);
+        Mockito.when(oneItemTodoList.containsItemWithName(Mockito.anyString())).thenReturn(true);
+        Mockito.when(oneItemTodoList.getItemsCount()).thenReturn(1);
+        //Mockito.when(oneItemTodoList.lastInsertedItemInLastThirtyMinutes(Mockito.any);
+
+        fullTodoList = Mockito.spy(TodoList.class);
+        Mockito.when(fullTodoList.getItemsCount()).thenReturn(10);
         fullTodoList.setUser(user);
-        for(int i=0;i<10;i++){
-            fullTodoList.addItem(new Item(String.valueOf(i),"bbbb", LocalDateTime.of(2020,i+1,1,0,0,0)));
-        }
+
+        validItem = Mockito.spy(new Item("name","aaa"));
+        Mockito.when(validItem.isValid()).thenReturn(true);
+
+        invalidItem = Mockito.spy(new Item("name","aaa"));
+        Mockito.when(invalidItem.isValid()).thenReturn(false);
+
+        emailSenderService = Mockito.mock(EmailSenderService.class);
+
+
+        sevenItemTodoList = Mockito.spy(new TodoList(user));
+        Mockito.when(sevenItemTodoList.getItemsCount()).thenReturn(7).thenReturn(8);
+        sevenItemTodoList.setEmailSenderService(emailSenderService);
+
+        eightItemTodoList = Mockito.spy(new TodoList(user));
+        Mockito.when(eightItemTodoList.getItemsCount()).thenReturn(8);
+        eightItemTodoList.setEmailSenderService(emailSenderService);
     }
 
     @Test
-    public void numberOfItemIsFine(){
-        Item item = new Item("1","a");
-        emptyTodoList.addItem(item);
-        assertTrue(emptyTodoList.getItems().contains(item));
+    public void insertInEmptyTodoListValidItem(){
+        emptyTodoList.addItem(validItem);
+        assertTrue(emptyTodoList.getItems().contains(validItem));
+    }
+
+    @Test
+    public void insertInEmptyTodoListInvalidItem(){
+        emptyTodoList.addItem(invalidItem);
+        assertFalse(emptyTodoList.getItems().contains(invalidItem));
     }
 
     @Test
@@ -56,7 +92,20 @@ public class TodoListTest {
     @Test
     public void addBeforeCoolDown(){
         emptyTodoList.addItem(new Item("1","a"));
-        emptyTodoList.addItem(new Item("2","a"));
-        assertFalse(emptyTodoList.getItems().contains( new Item("2","a")));
+        Item second = new Item("2","a");
+        emptyTodoList.addItem(second);
+        assertFalse(emptyTodoList.getItems().contains(second));
+    }
+
+    @Test
+    public void sendOneEmailAtEightItems(){
+        sevenItemTodoList.addItem(validItem);
+        verify(emailSenderService, times(1)).sendMail(anyString());
+    }
+
+    @Test
+    public void sendNoMailOnInvalidInsert(){
+        eightItemTodoList.addItem(invalidItem);
+        verify(emailSenderService, never()).sendMail(anyString());
     }
 }

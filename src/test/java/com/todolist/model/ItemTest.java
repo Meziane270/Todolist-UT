@@ -1,23 +1,23 @@
 package com.todolist.model;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-public class ItemTest extends TestCase {
+public class ItemTest {
 
-    private User user;
+    private Item item;
 
     @Before
     public void setUp() {
-        StringBuffer toDoListcontentTooLong = new StringBuffer(1500);
-        for(int i=0;i<1500;i++){
-            toDoListcontentTooLong.append("a");
-        }
+        item = Mockito.mock(Item.class);
+        Mockito.when(item.getContentSize()).thenReturn(1001);
     }
 
     @Test
     public void contentLengthTooLong(){
+        assertFalse(item.isValid());
     }
 
 }

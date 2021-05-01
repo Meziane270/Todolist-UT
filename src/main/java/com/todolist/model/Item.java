@@ -19,4 +19,8 @@ public class Item {
     public boolean isValid() {
         return true;
     }
+
+    public int getContentSize(){
+        return content.length();
+    }
 }
