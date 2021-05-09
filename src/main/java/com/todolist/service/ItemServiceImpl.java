@@ -5,6 +5,7 @@ import com.todolist.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -20,18 +21,17 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item getItemById(long id) {
-        return itemRepository.findById(id).orElse(null);
+    public Item getItemById(long id) throws NoSuchElementException {
+        return itemRepository.findById(id).get();
     }
 
     @Override
-    public void updateItem(long id, Item item) {
-        Item itemFromDb = itemRepository.findById(id).orElse(null);
-        if(itemFromDb != null) {
-            itemFromDb.setContent(item.getContent());
-            itemFromDb.setName(item.getName());
-            itemRepository.save(item);
-        }
+    public void updateItem(long id, Item item) throws NoSuchElementException {
+        Item itemFromDb = itemRepository.findById(id).get();
+        itemFromDb.setContent(item.getContent());
+        itemFromDb.setName(item.getName());
+        itemRepository.save(item);
+
     }
 
     @Override

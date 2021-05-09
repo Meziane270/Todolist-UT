@@ -5,20 +5,15 @@ import com.todolist.model.TodoList;
 import com.todolist.repository.TodoListRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TodoListServiceImpl implements TodoListService{
-
+public class TodoListServiceImpl implements TodoListService {
     TodoListRepository toDoListRepository;
 
     @Override
     public List<TodoList> getTodoLists() {
-        List<TodoList> toDoLists = new ArrayList<>();
-        toDoListRepository.findAll().forEach(toDoLists::add);
-        return toDoLists;
-
+        return toDoListRepository.findAll();
     }
 
     @Override
