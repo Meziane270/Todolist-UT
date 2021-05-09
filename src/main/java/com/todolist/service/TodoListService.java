@@ -11,11 +11,7 @@ public interface TodoListService {
 
     TodoList getTodoListById(long id);
 
-    TodoList createTodoList(long userId, TodoList todoList);
-
     TodoList addItem(long id, Item item);
-
-    void updateTodoList(long id, TodoList todoList);
 
     void deleteTodoList(long id);
 }

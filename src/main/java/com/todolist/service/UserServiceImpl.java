@@ -1,4 +1,5 @@
 package com.todolist.service;
+import com.todolist.model.TodoList;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import org.springframework.stereotype.Service;
