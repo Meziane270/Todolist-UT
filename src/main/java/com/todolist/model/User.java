@@ -2,6 +2,7 @@ package com.todolist.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
@@ -10,13 +11,31 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class User {
+
+    @Id
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private long id;
     @Singular
+
+    @OneToOne
     private final TodoList todoList = new TodoList(this);
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String lastname;
+
+    @Column(nullable = false)
     private String firstname;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private LocalDate birthDate;
 
     public boolean isValid() {

@@ -3,6 +3,7 @@ package com.todolist.model;
 import com.todolist.service.EmailSenderService;
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,11 +14,22 @@ import java.util.Comparator;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@Entity
 public class TodoList {
+    @Id
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private long id;
+
     @Singular
+    @OneToMany
     private final ArrayList<Item> items = new ArrayList<>();
+
+    @Transient
     private EmailSenderService emailSenderService = new EmailSenderService();
+
     @NonNull
+    @OneToOne
     private User user;
 
     public void addItem(Item item) {
