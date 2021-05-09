@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Item {
+    private long id;
     @NonNull
     private String name;
     @NonNull
@@ -20,7 +21,8 @@ public class Item {
         return true;
     }
 
-    public int getContentSize(){
+    public int getContentSize() {
         return content.length();
     }
+
 }
