@@ -26,7 +26,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(long id, Item item) {
-        itemRepository.save(item);
+        Item itemFromDb = itemRepository.findById(id).orElse(null);
+        if(itemFromDb != null) {
+            itemFromDb.setContent(item.getContent());
+            itemFromDb.setName(item.getName());
+            itemRepository.save(item);
+        }
     }
 
     @Override
