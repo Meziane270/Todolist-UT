@@ -1,5 +1,6 @@
 package com.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -17,15 +18,16 @@ import java.util.Date;
 @Table(name = "T_Item")
 public class Item {
     @NonNull
-    @Column(nullable = false)
+    @Column
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "todo_list_id")
+    @JsonBackReference
     private TodoList todoList;
 
     @NonNull
-    @Column(nullable = false)
+    @Column()
     private String content;
 
     @CreationTimestamp

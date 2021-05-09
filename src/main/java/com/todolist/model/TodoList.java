@@ -1,5 +1,6 @@
 package com.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.todolist.service.EmailSenderService;
 import lombok.*;
 
@@ -20,7 +21,7 @@ import java.util.List;
 @Table(name = "T_TodoList")
 public class TodoList {
     @Singular
-    @OneToMany(mappedBy = "todoList")
+    @OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL)
     private final List<Item> items = new ArrayList<>();
 
     @Id
@@ -28,7 +29,7 @@ public class TodoList {
     private long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     @Transient
@@ -40,6 +41,7 @@ public class TodoList {
                 !containsItemWithName(item.getName()) &&
                 !lastInsertedItemInLastThirtyMinutes()) {
             items.add(item);
+            item.setTodoList(this);
             if (getItemsCount() == 8) {
                 emailSenderService.sendMail(user.getEmail());
             }
@@ -57,8 +59,8 @@ public class TodoList {
     public boolean lastInsertedItemInLastThirtyMinutes() {
         Item item = items.stream().min(Comparator.comparing(Item::getCreationDate)).orElse(null);
         if (item == null) return false;
-        long now = new Timestamp(new Date().getTime()).getTime() / 1000;
-        long lastCreatedDate = item.getCreationDate().getTime() / 1000;
+        long now = new Timestamp(new Date().getTime()).getTime() / 60000;
+        long lastCreatedDate = item.getCreationDate().getTime() / 60000;
         return now - lastCreatedDate < 30;
     }
 }

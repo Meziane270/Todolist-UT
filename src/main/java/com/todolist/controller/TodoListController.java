@@ -26,15 +26,16 @@ public class TodoListController {
     }
 
     @GetMapping({"/{todoListId}"})
-    public ResponseEntity<TodoList> getTodoListById(@PathVariable Long todoListId) {
+    public ResponseEntity<TodoList> getTodoListById(@PathVariable("todoListId") Long todoListId) {
         TodoList todoList = todoListService.getTodoListById(todoListId);
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @PostMapping({"/{todoListId}/item"})
-    public ResponseEntity<TodoList> addItem(@PathVariable long todoListId, @RequestBody Item item) {
-        TodoList todoList = todoListService.addItem(todoListId, item);
-        return new ResponseEntity<>(todoList, HttpStatus.CREATED);
+    public ResponseEntity<TodoList> addItem(@PathVariable("todoListId") long todoListId, @RequestBody Item item) {
+            TodoList todoList = todoListService.addItem(todoListId, item);
+            return new ResponseEntity<>(todoList, HttpStatus.CREATED);
+
     }
 
     @DeleteMapping({"/{todoListId}"})

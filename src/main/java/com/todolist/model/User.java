@@ -1,5 +1,6 @@
 package com.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ import java.util.regex.Pattern;
 public class User {
     @Singular
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private final TodoList todoList = new TodoList(this);
 
     @NonNull
