@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 @Setter
 @Data
 @Entity
+@Table(name = "T_User")
 public class User {
     @Singular
 
@@ -42,7 +43,6 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(updatable = false, nullable = false)
     private long id;
 
     public boolean isValid() {

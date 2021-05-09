@@ -3,10 +3,7 @@ package com.todolist.model;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -17,11 +14,15 @@ import java.util.Date;
 @Setter
 @Data
 @Entity
+@Table(name = "T_Item")
 public class Item {
-
     @NonNull
     @Column(nullable = false)
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "todo_list_id")
+    private TodoList todoList;
 
     @NonNull
     @Column(nullable = false)
@@ -33,7 +34,6 @@ public class Item {
 
     @Id
     @GeneratedValue
-    @Column(updatable = false, nullable = false)
     private long id;
 
     public boolean isValid() {

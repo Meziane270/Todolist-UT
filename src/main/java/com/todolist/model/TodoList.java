@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +17,16 @@ import java.util.Date;
 @Setter
 @Data
 @Entity
+@Table(name = "T_TodoList")
 public class TodoList {
     @Singular
-    @OneToMany
-    private final ArrayList<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "todoList")
+    private final List<Item> items = new ArrayList<>();
+
     @Id
     @GeneratedValue
-    @Column(updatable = false, nullable = false)
     private long id;
+
     @NonNull
     @OneToOne
     private User user;
