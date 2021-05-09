@@ -1,12 +1,14 @@
 package com.todolist.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,10 +17,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Item {
-    @Id
-    @GeneratedValue
-    @Column(updatable = false, nullable = false)
-    private long id;
 
     @NonNull
     @Column(nullable = false)
@@ -28,8 +26,14 @@ public class Item {
     @Column(nullable = false)
     private String content;
 
+    @CreationTimestamp
     @Column(updatable = false, nullable = false)
-    private LocalDateTime creationDate = LocalDateTime.now();
+    private Timestamp creationDate = new Timestamp(new Date().getTime());
+
+    @Id
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private long id;
 
     public boolean isValid() {
         return true;
@@ -38,5 +42,4 @@ public class Item {
     public int getContentSize() {
         return content.length();
     }
-
 }

@@ -8,35 +8,41 @@ import java.time.Period;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 public class User {
-
-    @Id
-    @GeneratedValue
-    @Column(updatable = false, nullable = false)
-    private long id;
     @Singular
 
     @OneToOne
     private final TodoList todoList = new TodoList(this);
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String lastname;
-
+    @NonNull
     @Column(nullable = false)
     private String firstname;
 
+    @NonNull
+    @Column(nullable = false)
+    private String lastname;
+
+    @NonNull
     @Column(nullable = false)
     private String password;
 
+    @NonNull
     @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Id
+    @GeneratedValue
+    @Column(updatable = false, nullable = false)
+    private long id;
 
     public boolean isValid() {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
