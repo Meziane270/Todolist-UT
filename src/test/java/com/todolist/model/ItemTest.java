@@ -1,9 +1,10 @@
 package com.todolist.model;
 
-import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertFalse;
 
 public class ItemTest {
 
@@ -16,7 +17,7 @@ public class ItemTest {
     }
 
     @Test
-    public void contentLengthTooLong(){
+    public void contentLengthTooLong() {
         assertFalse(item.isValid());
     }
 

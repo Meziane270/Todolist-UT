@@ -1,23 +1,51 @@
 package com.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
+@Entity
+@Table(name = "T_User")
 public class User {
     @Singular
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
     private final TodoList todoList = new TodoList(this);
+
+    @NonNull
+    @Column(nullable = false, unique = true)
     private String email;
-    private String lastname;
+
+    @NonNull
+    @Column(nullable = false)
     private String firstname;
+
+    @NonNull
+    @Column(nullable = false)
+    private String lastname;
+
+    @NonNull
+    @Column(nullable = false)
     private String password;
+
+    @NonNull
+    @Column(nullable = false)
     private LocalDate birthDate;
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     public boolean isValid() {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
