@@ -15,6 +15,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@Data
 @Entity
 public class Item {
 

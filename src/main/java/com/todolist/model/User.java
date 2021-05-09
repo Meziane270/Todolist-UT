@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @Getter
 @Setter
+@Data
 @Entity
 public class User {
     @Singular
