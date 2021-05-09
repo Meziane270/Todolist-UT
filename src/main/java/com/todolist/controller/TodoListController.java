@@ -3,10 +3,8 @@ package com.todolist.controller;
 import com.todolist.model.Item;
 import com.todolist.model.TodoList;
 import com.todolist.service.TodoListService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,20 +20,20 @@ public class TodoListController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TodoList>> getAllTodoLists(){
+    public ResponseEntity<List<TodoList>> getAllTodoLists() {
         List<TodoList> todoLists = todoListService.getTodoLists();
         return new ResponseEntity<>(todoLists, HttpStatus.OK);
     }
 
     @GetMapping({"/{todoListId}"})
-    public ResponseEntity<TodoList> getTodoListById(@PathVariable Long todoListId){
+    public ResponseEntity<TodoList> getTodoListById(@PathVariable Long todoListId) {
         TodoList todoList = todoListService.getTodoListById(todoListId);
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
     @PostMapping({"/{todoListId}/item"})
-    public ResponseEntity<TodoList> addItem(@PathVariable long todoListId, @RequestBody Item item ) {
-        TodoList todoList = todoListService.addItem(todoListId,item);
+    public ResponseEntity<TodoList> addItem(@PathVariable long todoListId, @RequestBody Item item) {
+        TodoList todoList = todoListService.addItem(todoListId, item);
         return new ResponseEntity<>(todoList, HttpStatus.CREATED);
     }
 
