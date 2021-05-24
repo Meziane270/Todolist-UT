@@ -16,13 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
 @JsonFormat(pattern = "dd/MM/YYYY")
 @Table(name = "T_TodoList")
 public class TodoList {
     @Singular
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn
     private final List<Item> items = new ArrayList<>();
 
@@ -31,7 +30,7 @@ public class TodoList {
     private long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Transient
@@ -61,8 +60,8 @@ public class TodoList {
     public boolean lastInsertedItemInLastThirtyMinutes() {
         Item item = items.stream().min(Comparator.comparing(Item::getCreationDate)).orElse(null);
         if (item == null) return false;
-        long now = new Timestamp(new Date().getTime()).getTime() / 60000;
-        long lastCreatedDate = item.getCreationDate().getTime() / 60000;
+        long now = new Timestamp(new Date().getTime()).getTime() / 1800000;
+        long lastCreatedDate = item.getCreationDate().getTime() / 1800000;
         return now - lastCreatedDate < 30;
     }
 }

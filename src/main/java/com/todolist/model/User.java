@@ -14,12 +14,10 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "T_User")
 public class User {
     @Singular
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private final TodoList todoList = new TodoList(this);

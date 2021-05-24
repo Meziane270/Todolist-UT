@@ -14,7 +14,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
 @JsonFormat(pattern = "dd/MM/YYYY")
 @Table(name = "T_Item")
@@ -24,7 +23,7 @@ public class Item {
     private String name;
 
     @JsonBackReference
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private TodoList todoList;
 
