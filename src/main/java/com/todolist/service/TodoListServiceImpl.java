@@ -2,7 +2,6 @@ package com.todolist.service;
 
 import com.todolist.model.Item;
 import com.todolist.model.TodoList;
-import com.todolist.repository.ItemRepository;
 import com.todolist.repository.TodoListRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,6 @@ public class TodoListServiceImpl implements TodoListService {
 
     @Override
     public TodoList addItem(long id, Item item) {
-        System.out.println(item);
         TodoList todoList = toDoListRepository.findById(id).get();
         todoList.addItem(item);
         toDoListRepository.save(todoList);

@@ -33,9 +33,8 @@ public class TodoListController {
 
     @PostMapping({"/{todoListId}/item"})
     public ResponseEntity<TodoList> addItem(@PathVariable("todoListId") long todoListId, @RequestBody Item item) {
-            TodoList todoList = todoListService.addItem(todoListId, item);
-            return new ResponseEntity<>(todoList, HttpStatus.CREATED);
-
+        TodoList todoList = todoListService.addItem(todoListId, item);
+        return new ResponseEntity<>(todoList, HttpStatus.CREATED);
     }
 
     @DeleteMapping({"/{todoListId}"})

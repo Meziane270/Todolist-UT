@@ -1,6 +1,6 @@
 package com.todolist.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.todolist.service.EmailSenderService;
 import lombok.*;
 
@@ -18,10 +18,12 @@ import java.util.List;
 @Setter
 @Data
 @Entity
+@JsonFormat(pattern = "dd/MM/YYYY")
 @Table(name = "T_TodoList")
 public class TodoList {
     @Singular
-    @OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn
     private final List<Item> items = new ArrayList<>();
 
     @Id
@@ -29,7 +31,7 @@ public class TodoList {
     private long id;
 
     @NonNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private User user;
 
     @Transient
