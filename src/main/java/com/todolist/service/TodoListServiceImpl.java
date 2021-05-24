@@ -28,7 +28,9 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public TodoList addItem(long id, Item item) {
         TodoList todoList = toDoListRepository.findById(id).get();
+        System.out.println(todoList.getItemsCount());
         todoList.addItem(item);
+        System.out.println(todoList.getItemsCount());
         toDoListRepository.save(todoList);
         return todoList;
     }
