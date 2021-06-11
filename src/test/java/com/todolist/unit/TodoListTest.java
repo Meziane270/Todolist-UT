@@ -1,4 +1,4 @@
-package com.todolist.model;
+package com.todolist.unit;
 
 import com.todolist.service.EmailSenderService;
 import org.junit.Before;

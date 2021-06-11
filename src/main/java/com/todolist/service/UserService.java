@@ -1,6 +1,6 @@
 package com.todolist.service;
 
-import com.todolist.model.User;
+import com.todolist.unit.User;
 
 import java.util.List;
 

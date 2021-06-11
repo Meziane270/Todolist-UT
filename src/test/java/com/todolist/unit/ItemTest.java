@@ -1,4 +1,4 @@
-package com.todolist.model;
+package com.todolist.unit;
 
 import org.junit.Before;
 import org.junit.Test;

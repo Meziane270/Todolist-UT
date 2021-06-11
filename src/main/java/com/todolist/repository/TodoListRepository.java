@@ -1,6 +1,6 @@
 package com.todolist.repository;
 
-import com.todolist.model.TodoList;
+import com.todolist.unit.TodoList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.todolist.model;
+package com.todolist.unit;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
