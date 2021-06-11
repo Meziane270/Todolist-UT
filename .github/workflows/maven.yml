@@ -29,4 +29,4 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@v1
       with:
         api-token: 'dd19504b035f4b74bad1d8e685b14bac'
-        coverage-reports: site/jacoco.xml
+        coverage-reports: target/site/jacoco.xml
