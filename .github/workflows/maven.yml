@@ -28,5 +28,5 @@ jobs:
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@v1
       with:
-        api-token: 'dd19504b035f4b74bad1d8e685b14bac'
+        project-token: 'dd19504b035f4b74bad1d8e685b14bac'
         coverage-reports: target/site/jacoco/jacoco.xml
