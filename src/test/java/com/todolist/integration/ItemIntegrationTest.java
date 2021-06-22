@@ -1,6 +1,12 @@
 package com.todolist.integration;
 
+import com.todolist.model.Item;
+import com.todolist.model.TodoList;
 import com.todolist.model.User;
+import com.todolist.repository.TodoListRepository;
+import com.todolist.repository.UserRepository;
+import com.todolist.service.UserService;
+import com.todolist.service.UserServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -23,17 +29,27 @@ public class ItemIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TodoListRepository todoListRepository;
+
     @BeforeEach
     public void setup() {
+        User user = new User("test@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
+        TodoList todoList = user.getTodoList();
+        todoList.addItem(new Item("new item", "test"));
     }
 
     @Test
     public void createNewValidUser() {
         ResponseEntity<User> responseEntity = restTemplate.postForEntity("/user", new User("test@mail.com", "firstname", "lastname", "password123", LocalDate.now()), User.class);
         User user = responseEntity.getBody();
-
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertNotNull(user);
         assertEquals("firstname", user.getFirstname());
     }
+
+
 }
