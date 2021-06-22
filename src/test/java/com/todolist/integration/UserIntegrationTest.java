@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static net.bytebuddy.matcher.ElementMatchers.isArray;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,7 +40,7 @@ public class UserIntegrationTest {
     }
 
     @Test
-    public void getAllUsers() throws Exception {
+    public void getAllUser() throws Exception {
         User user1 = new User("getUser1@mail.com", "getUser1", "getUser1", "getUser1", LocalDate.now());
         userRepository.save(user1);
         User user2 = new User("getUser2@mail.com", "getUser2", "getUser2", "getUser2", LocalDate.now());
@@ -47,9 +48,7 @@ public class UserIntegrationTest {
         this.mockMvc.perform(get("/user"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].email").value("getUser1@mail.com"))
-                .andExpect(jsonPath("$[1].email").value("getUser2@mail.com"))
+                .andExpect(jsonPath("$").isArray())
                 .andReturn();
     }
 
