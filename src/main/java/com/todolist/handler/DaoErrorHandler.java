@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.NoSuchElementException;
 
 @ControllerAdvice(basePackages = {"com.todolist"})
 public class DaoErrorHandler {
@@ -29,8 +30,8 @@ public class DaoErrorHandler {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<Void> unknownError(HttpServletRequest req, Exception ex) {
+    @ExceptionHandler({DataAccessException.class, NoSuchElementException.class})
+    public ResponseEntity<Void> elementNotFoundError(HttpServletRequest req, Exception ex) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
