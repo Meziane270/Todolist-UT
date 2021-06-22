@@ -34,9 +34,4 @@ public class TodoListServiceImpl implements TodoListService {
         toDoListRepository.save(todoList);
         return todoList;
     }
-
-    @Override
-    public void deleteTodoList(long id) {
-        toDoListRepository.deleteById(id);
-    }
 }

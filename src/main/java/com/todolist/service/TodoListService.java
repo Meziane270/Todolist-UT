@@ -12,6 +12,4 @@ public interface TodoListService {
     TodoList getTodoListById(long id);
 
     TodoList addItem(long id, Item item);
-
-    void deleteTodoList(long id);
 }

@@ -36,10 +36,4 @@ public class TodoListController {
         TodoList todoList = todoListService.addItem(todoListId, item);
         return new ResponseEntity<>(todoList, HttpStatus.CREATED);
     }
-
-    @DeleteMapping({"/{todoListId}"})
-    public ResponseEntity<TodoList> deleteTodo(@PathVariable("todoListId") Long todoListId) {
-        todoListService.deleteTodoList(todoListId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
