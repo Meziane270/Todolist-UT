@@ -1,5 +1,6 @@
 package com.todolist.unit;
 
+import com.todolist.model.User;
 import org.junit.Before;
 import org.junit.Test;
 

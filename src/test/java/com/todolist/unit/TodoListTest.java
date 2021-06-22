@@ -1,5 +1,8 @@
 package com.todolist.unit;
 
+import com.todolist.model.Item;
+import com.todolist.model.TodoList;
+import com.todolist.model.User;
 import com.todolist.service.EmailSenderService;
 import org.junit.Before;
 import org.junit.Test;

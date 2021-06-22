@@ -1,6 +1,6 @@
 package com.todolist.service;
 
-import com.todolist.unit.Item;
+import com.todolist.model.Item;
 import com.todolist.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 

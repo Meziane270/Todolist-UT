@@ -1,7 +1,7 @@
 package com.todolist.controller;
 
-import com.todolist.unit.Item;
-import com.todolist.unit.User;
+import com.todolist.model.Item;
+import com.todolist.model.User;
 import com.todolist.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

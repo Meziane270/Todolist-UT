@@ -1,7 +1,7 @@
 package com.todolist.integration;
 
 import com.todolist.repository.UserRepository;
-import com.todolist.unit.User;
+import com.todolist.model.User;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;

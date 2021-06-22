@@ -1,7 +1,7 @@
 package com.todolist.service;
 
-import com.todolist.unit.Item;
-import com.todolist.unit.TodoList;
+import com.todolist.model.Item;
+import com.todolist.model.TodoList;
 
 import java.util.List;
 
