@@ -14,6 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -76,7 +77,7 @@ public class ItemIntegrationTest {
     public void updateItemWithInvalidData() throws Exception {
 
         User user = new User("testInvalid@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
-        user.getTodoList().addItem(new Item("new item", "test content"));
+        user.getTodoList().addItem(new Item("new item", "test content", new Timestamp(System.currentTimeMillis()-32*60000)));
         userRepository.save(user);
         Item item = user.getTodoList().getItems().get(0);
         Item newUpdatedItem = new Item();
