@@ -30,7 +30,7 @@ public class Item {
     private String content;
 
     @Column(updatable = false, nullable = false)
-    private Timestamp creationDate;
+    private Timestamp creationDate = new Timestamp(new Date().getTime());
 
     @Id
     @GeneratedValue
@@ -47,10 +47,5 @@ public class Item {
 
     public int getContentSize() {
         return content.length();
-    }
-
-    @PrePersist
-    private void onCreate() {
-        this.setCreationDate(new Timestamp(new Date().getTime()));
     }
 }
