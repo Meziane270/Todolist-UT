@@ -29,16 +29,24 @@ public class Item {
     @Column(nullable = false)
     private String content;
 
+    @NonNull
     @Column(updatable = false, nullable = false)
     private Timestamp creationDate = new Timestamp(new Date().getTime());
 
     @Id
+    @Singular
     @GeneratedValue
     private long id;
 
     public Item() {
         content = "";
         name = "";
+    }
+
+    public Item(@NonNull String name, @NonNull String content, @NonNull Timestamp creationDate) {
+        this.name = name;
+        this.content = content;
+        this.creationDate = creationDate;
     }
 
     public boolean isValid() {
