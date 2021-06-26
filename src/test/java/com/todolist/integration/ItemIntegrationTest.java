@@ -19,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -42,6 +44,20 @@ public class ItemIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
+    public void getAllItems() throws Exception {
+        Item item1 = new Item("new item1", "test content");
+        Item item2 = new Item("new item2", "test content");
+        itemRepository.save(item1);
+        itemRepository.save(item2);
+        this.mockMvc.perform(get("/item"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andReturn();
+    }
+
+    @Test
     public void getExistantItemById() throws Exception {
         User user = new User("testExistItem@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
         user.getTodoList().addItem(new Item("new item", "test content"));
@@ -50,6 +66,9 @@ public class ItemIntegrationTest {
         this.mockMvc.perform(get("/item/{id}", id))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("new item"))
+                .andExpect(jsonPath("$.content").value("test content"))
                 .andReturn();
     }
 
