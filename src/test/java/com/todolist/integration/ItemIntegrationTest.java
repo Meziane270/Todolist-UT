@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,6 +42,26 @@ public class ItemIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Test
+    public void getExistantItemById() throws Exception {
+        User user = new User("testExistItem@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
+        user.getTodoList().addItem(new Item("new item", "test content"));
+        userRepository.save(user);
+        long id = user.getTodoList().getItems().get(0).getId();
+        this.mockMvc.perform(get("/item/{id}", id))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void getInexistantItemById() throws Exception {
+        this.mockMvc.perform(get("/item/{id}", 0))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
 
     @Test
     public void updateItemWithValidData() throws Exception {
