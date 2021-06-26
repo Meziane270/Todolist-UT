@@ -37,7 +37,7 @@ public class ItemController {
     }
 
     @DeleteMapping({"/{itemId}"})
-    public ResponseEntity<User> deleteUser(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<User> deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
