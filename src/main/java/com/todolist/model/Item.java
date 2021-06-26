@@ -18,7 +18,7 @@ import java.util.Date;
 @Table(name = "T_Item")
 public class Item {
     @NonNull
-    @Column
+    @Column(unique = true, nullable = false)
     private String name;
 
     @JsonBackReference
@@ -27,7 +27,7 @@ public class Item {
     private TodoList todoList;
 
     @NonNull
-    @Column
+    @Column(nullable = false)
     private String content;
 
     @CreationTimestamp
