@@ -36,7 +36,7 @@ public class TodoList {
     @Transient
     private EmailSenderService emailSenderService = new EmailSenderService();
 
-    public void addItem(Item item) {
+    public boolean addItem(Item item) {
         if (getItemsCount() < 10 &&
                 item.isValid() &&
                 !containsItemWithName(item.getName()) &&
@@ -46,7 +46,9 @@ public class TodoList {
             if (getItemsCount() == 8) {
                 emailSenderService.sendMail(user.getEmail());
             }
+            return true;
         }
+        return false;
     }
 
     public int getItemsCount() {

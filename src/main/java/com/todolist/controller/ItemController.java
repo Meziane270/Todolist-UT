@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class ItemController {
     }
 
     @PutMapping({"/{itemId}"})
-    public ResponseEntity<Item> updateItem(@PathVariable("itemId") Long itemId, @RequestBody Item item) {
+    public ResponseEntity<Item> updateItem(@PathVariable("itemId") Long itemId, @RequestBody Item item) throws InvalidObjectException {
         itemService.updateItem(itemId, item);
         return new ResponseEntity<>(itemService.getItemById(itemId), HttpStatus.OK);
     }
