@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class TodoListController {
     }
 
     @PostMapping({"/{todoListId}/item"})
-    public ResponseEntity<TodoList> addItem(@PathVariable("todoListId") long todoListId, @RequestBody Item item) {
+    public ResponseEntity<TodoList> addItem(@PathVariable("todoListId") long todoListId, @RequestBody Item item) throws InvalidObjectException {
         TodoList todoList = todoListService.addItem(todoListId, item);
         return new ResponseEntity<>(todoList, HttpStatus.CREATED);
     }
