@@ -75,20 +75,20 @@ public class UserIntegrationTest {
                         "  \"email\" : \"post@mail.com\",\n" +
                         "  \"firstname\" : \"post\",\n" +
                         "  \"lastname\" : \"post\",\n" +
-                        "  \"password\" : \"post123\",\n" +
-                        " \"birthDate\" : \"2021-06-11\"\n"+
+                        "  \"password\" : \"post1234\",\n" +
+                        " \"birthDate\" : \"2000-06-11\"\n"+
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value("post@mail.com"))
                 .andExpect(jsonPath("$.firstname").value("post"))
                 .andExpect(jsonPath("$.lastname").value("post"))
-                .andExpect(jsonPath("$.password").value("post123"));
+                .andExpect(jsonPath("$.password").value("post1234"));
     }
 
     @Test
     public void updateUser() throws Exception {
-        User user = new User("test@mail.com", "test", "test", "test123", LocalDate.now());
+        User user = new User("test@mail.com", "test", "test", "test1234", LocalDate.parse("2000-06-11"));
         user = userRepository.save(user);
         long userId = user.getId();
         this.mockMvc.perform(put("/user/{id}", userId)
@@ -98,7 +98,7 @@ public class UserIntegrationTest {
                         "  \"firstname\" : \"update\",\n" +
                         "  \"lastname\" : \"update\",\n" +
                         "  \"password\" : \"update123\",\n" +
-                        " \"birthDate\" : \"2021-06-11\"\n"+
+                        " \"birthDate\" : \"2000-06-11\"\n"+
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
