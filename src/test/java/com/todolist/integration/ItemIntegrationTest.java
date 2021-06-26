@@ -3,6 +3,7 @@ package com.todolist.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.model.Item;
 import com.todolist.model.User;
+import com.todolist.repository.ItemRepository;
 import com.todolist.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -26,12 +28,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Transactional
 public class ItemIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -62,9 +68,8 @@ public class ItemIntegrationTest {
         user.getTodoList().addItem(new Item("new item", "test content"));
         userRepository.save(user);
         Item item = user.getTodoList().getItems().get(0);
-        Item newUpdatedItem = new Item();
-        newUpdatedItem.setName("updated Name");
-        newUpdatedItem.setContent("Valid content");
+        System.out.println(itemRepository.getOne(3L));
+        Item newUpdatedItem = new Item("updated Name","Valid content");
         this.mockMvc.perform(put("/item/{id}", item.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newUpdatedItem)))
@@ -75,14 +80,11 @@ public class ItemIntegrationTest {
 
     @Test
     public void updateItemWithInvalidData() throws Exception {
-
         User user = new User("testInvalid@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
         user.getTodoList().addItem(new Item("new item", "test content", new Timestamp(System.currentTimeMillis()-32*60000)));
         userRepository.save(user);
         Item item = user.getTodoList().getItems().get(0);
-        Item newUpdatedItem = new Item();
-        newUpdatedItem.setName("");
-        newUpdatedItem.setContent("");
+        Item newUpdatedItem = new Item("","");
         this.mockMvc.perform(put("/item/{id}", item.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newUpdatedItem)))
