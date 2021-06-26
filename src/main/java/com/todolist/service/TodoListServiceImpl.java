@@ -29,9 +29,9 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public TodoList addItem(long id, Item item) throws InvalidObjectException {
         TodoList todoList = toDoListRepository.findById(id).get();
-        if(!item.isValid())
+        if(!todoList.addItem(item)){
             throw new InvalidObjectException("Invalid item properties");
-        todoList.addItem(item);
+        }
         toDoListRepository.save(todoList);
         return todoList;
     }
