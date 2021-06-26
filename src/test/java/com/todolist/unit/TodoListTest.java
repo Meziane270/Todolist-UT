@@ -63,47 +63,47 @@ public class TodoListTest {
 
     @Test
     public void insertInEmptyTodoListValidItem() {
-        emptyTodoList.addItem(validItem);
+        assertTrue(emptyTodoList.addItem(validItem));
         assertTrue(emptyTodoList.getItems().contains(validItem));
     }
 
     @Test
     public void insertInEmptyTodoListInvalidItem() {
-        emptyTodoList.addItem(invalidItem);
+        assertFalse(emptyTodoList.addItem(invalidItem));
         assertFalse(emptyTodoList.getItems().contains(invalidItem));
     }
 
     @Test
     public void numberOfItemIsNotFine() {
         Item item = new Item("11", "a");
-        fullTodoList.addItem(item);
+        assertFalse(fullTodoList.addItem(item));
         assertFalse(fullTodoList.getItems().contains(item));
         assertTrue(fullTodoList.getItems().size() <= 10);
     }
 
     @Test
     public void insertAlreadyUsedNameItem() {
-        oneItemTodoList.addItem(validItem);
+        assertFalse(oneItemTodoList.addItem(validItem));
         assertFalse(oneItemTodoList.getItems().contains(validItem));
     }
 
     @Test
     public void addBeforeCoolDown() {
-        emptyTodoList.addItem(new Item("1", "a"));
+        assertTrue(emptyTodoList.addItem(new Item("1", "a")));
         Item second = new Item("2", "a");
-        emptyTodoList.addItem(second);
+        assertFalse(emptyTodoList.addItem(second));
         assertFalse(emptyTodoList.getItems().contains(second));
     }
 
     @Test
     public void sendOneEmailAtEightItems() {
-        sevenItemTodoList.addItem(validItem);
+        assertTrue(sevenItemTodoList.addItem(validItem));
         verify(emailSenderService, times(1)).sendMail(anyString());
     }
 
     @Test
     public void sendNoMailOnInvalidInsert() {
-        eightItemTodoList.addItem(invalidItem);
+        assertFalse(eightItemTodoList.addItem(invalidItem));
         verify(emailSenderService, never()).sendMail(anyString());
     }
 }

@@ -4,6 +4,7 @@ import com.todolist.model.Item;
 import com.todolist.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,12 +27,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void updateItem(long id, Item item) throws NoSuchElementException {
+    public void updateItem(long id, Item item) throws NoSuchElementException, InvalidObjectException {
         Item itemFromDb = itemRepository.findById(id).get();
         itemFromDb.setContent(item.getContent());
         itemFromDb.setName(item.getName());
+        if(!itemFromDb.isValid())
+            throw new InvalidObjectException("Invalid item properties");
         itemRepository.save(item);
-
     }
 
     @Override

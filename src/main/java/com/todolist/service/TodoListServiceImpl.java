@@ -5,6 +5,7 @@ import com.todolist.model.TodoList;
 import com.todolist.repository.TodoListRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @Service
@@ -26,11 +27,11 @@ public class TodoListServiceImpl implements TodoListService {
     }
 
     @Override
-    public TodoList addItem(long id, Item item) {
+    public TodoList addItem(long id, Item item) throws InvalidObjectException {
         TodoList todoList = toDoListRepository.findById(id).get();
-        System.out.println(todoList.getItemsCount());
-        todoList.addItem(item);
-        System.out.println(todoList.getItemsCount());
+        if(!todoList.addItem(item)){
+            throw new InvalidObjectException("Invalid item properties");
+        }
         toDoListRepository.save(todoList);
         return todoList;
     }
