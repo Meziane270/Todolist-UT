@@ -41,9 +41,9 @@ public class UserIntegrationTest {
 
     @Test
     public void getAllUser() throws Exception {
-        User user1 = new User("getUser1@mail.com", "getUser1", "getUser1", "getUser1", LocalDate.now());
+        User user1 = new User("getUser1@mail.com", "getUser1", "getUser1", "getUser1", LocalDate.parse("2000-06-11"));
         userRepository.save(user1);
-        User user2 = new User("getUser2@mail.com", "getUser2", "getUser2", "getUser2", LocalDate.now());
+        User user2 = new User("getUser2@mail.com", "getUser2", "getUser2", "getUser2", LocalDate.parse("2000-06-11"));
         userRepository.save(user2);
         this.mockMvc.perform(get("/user"))
                 .andDo(print())
@@ -54,7 +54,7 @@ public class UserIntegrationTest {
 
     @Test
     public void getUserById() throws Exception {
-        User user = new User("getById@mail.com", "getById", "getById", "getById", LocalDate.now());
+        User user = new User("getById@mail.com", "getById", "getById", "getById", LocalDate.parse("2000-06-11"));
         user = userRepository.save(user);
         long userId = user.getId();
         this.mockMvc.perform(get("/user/{id}", userId))
@@ -111,7 +111,7 @@ public class UserIntegrationTest {
 
     @Test
     public void deleteUser() throws Exception {
-        User user = new User("delete@mail.com", "delete", "delete", "delete123", LocalDate.now());
+        User user = new User("delete@mail.com", "delete", "delete", "delete123", LocalDate.parse("2000-06-11"));
         user = userRepository.save(user);
         long userId = user.getId();
         this.mockMvc.perform(delete("/user/{id}", userId))
