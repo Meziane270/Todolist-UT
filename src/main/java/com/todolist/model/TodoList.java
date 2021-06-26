@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @JsonFormat(pattern = "dd/MM/YYYY")
-@Table(name = "T_TodoList")
+@Table(name = "T_Todo_List")
 public class TodoList {
     @Singular
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

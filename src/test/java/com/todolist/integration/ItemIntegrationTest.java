@@ -32,13 +32,7 @@ public class ItemIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private TodoListRepository todoListRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
