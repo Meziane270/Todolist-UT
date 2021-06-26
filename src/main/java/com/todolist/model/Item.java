@@ -3,7 +3,6 @@ package com.todolist.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -30,9 +29,8 @@ public class Item {
     @Column(nullable = false)
     private String content;
 
-    @CreationTimestamp
     @Column(updatable = false, nullable = false)
-    private Timestamp creationDate = new Timestamp(new Date().getTime());
+    private Timestamp creationDate;
 
     @Id
     @GeneratedValue
@@ -49,5 +47,10 @@ public class Item {
 
     public int getContentSize() {
         return content.length();
+    }
+
+    @PrePersist
+    private void onCreate() {
+        this.setCreationDate(new Timestamp(new Date().getTime()));
     }
 }
