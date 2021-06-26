@@ -1,7 +1,7 @@
 package com.todolist.integration;
 
-import com.todolist.repository.UserRepository;
 import com.todolist.model.User;
+import com.todolist.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static net.bytebuddy.matcher.ElementMatchers.isArray;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -78,7 +76,7 @@ public class UserIntegrationTest {
                         "  \"firstname\" : \"post\",\n" +
                         "  \"lastname\" : \"post\",\n" +
                         "  \"password\" : \"post1234\",\n" +
-                        " \"birthDate\" : \"2000-06-11\"\n"+
+                        " \"birthDate\" : \"2000-06-11\"\n" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -100,7 +98,7 @@ public class UserIntegrationTest {
                         "  \"firstname\" : \"update\",\n" +
                         "  \"lastname\" : \"update\",\n" +
                         "  \"password\" : \"update123\",\n" +
-                        " \"birthDate\" : \"2000-06-11\"\n"+
+                        " \"birthDate\" : \"2000-06-11\"\n" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

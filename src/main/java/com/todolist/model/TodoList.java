@@ -5,10 +5,8 @@ import com.todolist.service.EmailSenderService;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
