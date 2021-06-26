@@ -29,7 +29,7 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public TodoList addItem(long id, Item item) throws InvalidObjectException {
         TodoList todoList = toDoListRepository.findById(id).get();
-        if(!todoList.addItem(item)){
+        if (!todoList.addItem(item)) {
             throw new InvalidObjectException("Invalid item properties");
         }
         toDoListRepository.save(todoList);

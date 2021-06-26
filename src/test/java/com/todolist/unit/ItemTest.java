@@ -3,9 +3,10 @@ package com.todolist.unit;
 import com.todolist.model.Item;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ItemTest {
 
@@ -13,8 +14,8 @@ public class ItemTest {
 
     @Before
     public void setUp() {
-        item = Mockito.mock(Item.class);
-        Mockito.when(item.getContentSize()).thenReturn(1001);
+        item = mock(Item.class);
+        when(item.getContentSize()).thenReturn(1001);
     }
 
     @Test
