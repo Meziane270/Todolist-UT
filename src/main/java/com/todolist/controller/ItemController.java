@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/item")
 public class ItemController {
-    ItemService itemService;
+    private final ItemService itemService;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -37,7 +37,7 @@ public class ItemController {
     }
 
     @DeleteMapping({"/{itemId}"})
-    public ResponseEntity<User> deleteUser(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<User> deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

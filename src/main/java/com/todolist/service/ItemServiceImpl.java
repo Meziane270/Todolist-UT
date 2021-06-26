@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
         Item itemFromDb = itemRepository.findById(id).get();
         itemFromDb.setContent(item.getContent());
         itemFromDb.setName(item.getName());
-        if(!itemFromDb.isValid())
+        if (!itemFromDb.isValid())
             throw new InvalidObjectException("Invalid item properties");
         itemRepository.save(item);
     }

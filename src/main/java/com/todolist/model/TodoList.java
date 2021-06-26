@@ -5,10 +5,8 @@ import com.todolist.service.EmailSenderService;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,7 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 @JsonFormat(pattern = "dd/MM/YYYY")
-@Table(name = "T_TodoList")
+@Table(name = "T_Todo_List")
 public class TodoList {
     @Singular
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -40,7 +38,7 @@ public class TodoList {
         if (getItemsCount() < 10 &&
                 item.isValid() &&
                 !containsItemWithName(item.getName()) &&
-                !lastInsertedItemInLastThirtyMinutes()) {
+                !lastInsertedItemInLastThirtyMinutes(item)) {
             items.add(item);
             item.setTodoList(this);
             if (getItemsCount() == 8) {
@@ -59,11 +57,11 @@ public class TodoList {
         return items.stream().anyMatch(it -> it.getName().equals(name));
     }
 
-    public boolean lastInsertedItemInLastThirtyMinutes() {
+    public boolean lastInsertedItemInLastThirtyMinutes(Item itemToAdd) {
         Item item = items.stream().min(Comparator.comparing(Item::getCreationDate)).orElse(null);
         if (item == null) return false;
-        long now = new Timestamp(new Date().getTime()).getTime() / 1800000;
-        long lastCreatedDate = item.getCreationDate().getTime() / 1800000;
-        return now - lastCreatedDate < 30;
+        long itemCreationTime = itemToAdd.getCreationDate().getTime() / 60000;
+        long lastCreatedDate = item.getCreationDate().getTime() / 60000;
+        return itemCreationTime - lastCreatedDate < 30;
     }
 }

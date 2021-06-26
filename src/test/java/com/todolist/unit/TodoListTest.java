@@ -1,9 +1,11 @@
-package com.todolist.model;
+package com.todolist.unit;
 
+import com.todolist.model.Item;
+import com.todolist.model.TodoList;
+import com.todolist.model.User;
 import com.todolist.service.EmailSenderService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,31 +29,31 @@ public class TodoListTest {
         User user = new User();
         user.setEmail(email);
 
-        emailSenderService = Mockito.mock(EmailSenderService.class);
+        emailSenderService = mock(EmailSenderService.class);
 
-        validItem = Mockito.spy(new Item(uniqueItemName, "aaa"));
-        Mockito.when(validItem.isValid()).thenReturn(true);
+        validItem = spy(new Item(uniqueItemName, "aaa"));
+        when(validItem.isValid()).thenReturn(true);
 
-        invalidItem = Mockito.spy(new Item(uniqueItemName, "aaa"));
-        Mockito.when(invalidItem.isValid()).thenReturn(false);
+        invalidItem = spy(new Item(uniqueItemName, "aaa"));
+        when(invalidItem.isValid()).thenReturn(false);
 
         emptyTodoList = new TodoList();
         emptyTodoList.setUser(user);
 
-        oneItemTodoList = Mockito.spy(new TodoList());
+        oneItemTodoList = spy(new TodoList());
         oneItemTodoList.addItem(new Item(uniqueItemName, "aaa"));
-        Mockito.when(oneItemTodoList.getItemsCount()).thenReturn(1);
+        when(oneItemTodoList.getItemsCount()).thenReturn(1);
 
-        fullTodoList = Mockito.spy(new TodoList());
-        Mockito.when(fullTodoList.getItemsCount()).thenReturn(10);
+        fullTodoList = spy(new TodoList());
+        when(fullTodoList.getItemsCount()).thenReturn(10);
         fullTodoList.setUser(user);
 
-        sevenItemTodoList = Mockito.spy(new TodoList(user));
-        Mockito.when(sevenItemTodoList.getItemsCount()).thenReturn(7).thenReturn(8);
+        sevenItemTodoList = spy(new TodoList(user));
+        when(sevenItemTodoList.getItemsCount()).thenReturn(7).thenReturn(8);
         sevenItemTodoList.setEmailSenderService(emailSenderService);
 
-        eightItemTodoList = Mockito.spy(new TodoList(user));
-        Mockito.when(eightItemTodoList.getItemsCount()).thenReturn(8);
+        eightItemTodoList = spy(new TodoList(user));
+        when(eightItemTodoList.getItemsCount()).thenReturn(8);
         eightItemTodoList.setEmailSenderService(emailSenderService);
     }
 

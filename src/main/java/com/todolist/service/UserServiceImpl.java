@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) throws InvalidObjectException {
-        if(!user.isValid())
+        if (!user.isValid())
             throw new InvalidObjectException("Invalid user properties");
         return userRepository.save(user);
     }
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         userFromDB.setEmail(user.getEmail());
         userFromDB.setBirthDate(user.getBirthDate());
         userFromDB.setPassword(user.getPassword());
-        if(!userFromDB.isValid())
+        if (!userFromDB.isValid())
             throw new InvalidObjectException("Invalid user properties");
         userRepository.save(userFromDB);
     }
