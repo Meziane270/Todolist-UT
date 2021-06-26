@@ -35,6 +35,7 @@ import java.util.TimeZone;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,19 +129,13 @@ public class TodoListIntegrationTest {
         todoListId = user.getTodoList().getId();
         Timestamp timestampItem1 = new Timestamp(System.currentTimeMillis()-32*60000);
         Timestamp timestampItem2 = new Timestamp(System.currentTimeMillis());
-        Item savedItem = new Item();
-        savedItem.setName("post@gmail.com");
-        savedItem.setContent("post1");
-        savedItem.setCreationDate(timestampItem1);
+
+        Item savedItem = new Item("post@gmail.com","post1",timestampItem1);
 
         user.getTodoList().addItem(savedItem);
-        user = userRepository.save(user);
+        userRepository.save(user);
 
-        System.out.println(user.getTodoList().getItems().get(0).getCreationDate());
-        Item itemCreatedAfterThirtyMinutes = new Item();
-        itemCreatedAfterThirtyMinutes.setName("post2@gmail.com");
-        itemCreatedAfterThirtyMinutes.setContent("post2");
-        itemCreatedAfterThirtyMinutes.setCreationDate(timestampItem2);
+        Item itemCreatedAfterThirtyMinutes = new Item("post2@gmail.com","post2",timestampItem2);
 
         this.mockMvc.perform(post("/todo-list/{id}/item", todoListId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -156,16 +151,39 @@ public class TodoListIntegrationTest {
         user = userRepository.save(user);
         todoListId = user.getTodoList().getId();
 
-        Item savedItem = new Item();
-        savedItem.setName("post@mail.com");
-        savedItem.setContent("post1");
+        Timestamp timestampItem1 = new Timestamp(System.currentTimeMillis()-29*60000);
+        Timestamp timestampItem2 = new Timestamp(System.currentTimeMillis());
+
+        Item savedItem =  new Item("post@gmail.com","post1",timestampItem1);
 
         user.getTodoList().addItem(savedItem);
         userRepository.save(user);
 
-        Item itemCreatedAfterThirtyMinutes = new Item();
-        itemCreatedAfterThirtyMinutes.setName("post2@mail.com");
-        itemCreatedAfterThirtyMinutes.setContent("post2");
+        Item itemCreatedAfterThirtyMinutes = new Item("post2@gmail.com","post2",timestampItem2);
+
+        this.mockMvc.perform(post("/todo-list/{id}/item", todoListId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(itemCreatedAfterThirtyMinutes))
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void addItemToFullList() throws Exception {
+        User user = new User("addItem@gmail.com", "firstname", "lastname", "password123", LocalDate.now());
+        user = userRepository.save(user);
+        todoListId = user.getTodoList().getId();
+
+        for (int i = 0; i < 9;i++ ) {
+            Timestamp timestampItem1 = new Timestamp(System.currentTimeMillis() + (31 * i) * 60000);
+            System.out.println(timestampItem1);
+            user.getTodoList().addItem(new Item("posti"+i+"@gmail.com","post"+i,timestampItem1));
+        }
+
+        userRepository.save(user);
+        System.out.println(user.getTodoList().getItems());
+        Item itemCreatedAfterThirtyMinutes = new Item("post2@gmail.com","post2",new Timestamp(System.currentTimeMillis() + (30 * 10) * 60000));
 
         this.mockMvc.perform(post("/todo-list/{id}/item", todoListId)
                 .contentType(MediaType.APPLICATION_JSON)
