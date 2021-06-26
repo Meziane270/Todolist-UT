@@ -10,7 +10,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -39,8 +38,13 @@ public class Item {
     @GeneratedValue
     private long id;
 
+    public Item() {
+        content = "";
+        name = "";
+    }
+
     public boolean isValid() {
-        return content.length() <= 1000 && !content.isBlank() && !name.isBlank();
+        return !content.isBlank() && !name.isBlank() && content.length() <= 1000;
     }
 
     public int getContentSize() {
