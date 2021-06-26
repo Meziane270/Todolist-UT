@@ -13,7 +13,4 @@ public interface TodoListService {
     TodoList getTodoListById(long id);
 
     TodoList addItem(long id, Item item) throws InvalidObjectException;
-
-    void deleteTodoList(long id);
-    TodoList addItem(long id, Item item);
 }
