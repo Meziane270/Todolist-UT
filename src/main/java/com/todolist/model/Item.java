@@ -40,7 +40,7 @@ public class Item {
     private long id;
 
     public boolean isValid() {
-        return true;
+        return content.length() <= 1000 && !content.isBlank() && !name.isBlank();
     }
 
     public int getContentSize() {
