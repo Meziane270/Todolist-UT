@@ -121,5 +121,4 @@ public class UserIntegrationTest {
                 .andExpect(status().isNoContent())
                 .andReturn();
     }
-
 }

@@ -19,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,8 +67,7 @@ public class ItemIntegrationTest {
         user.getTodoList().addItem(new Item("new item", "test content"));
         userRepository.save(user);
         Item item = user.getTodoList().getItems().get(0);
-        System.out.println(itemRepository.getOne(3L));
-        Item newUpdatedItem = new Item("updated Name","Valid content");
+        Item newUpdatedItem = new Item("updated Name", "Valid content");
         this.mockMvc.perform(put("/item/{id}", item.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newUpdatedItem)))
@@ -81,10 +79,10 @@ public class ItemIntegrationTest {
     @Test
     public void updateItemWithInvalidData() throws Exception {
         User user = new User("testInvalid@mail.com", "firstTest", "lastTest", "passTest", LocalDate.now());
-        user.getTodoList().addItem(new Item("new item", "test content", new Timestamp(System.currentTimeMillis()-32*60000)));
+        user.getTodoList().addItem(new Item("new item", "test content", new Timestamp(System.currentTimeMillis() - 32 * 60000)));
         userRepository.save(user);
         Item item = user.getTodoList().getItems().get(0);
-        Item newUpdatedItem = new Item("","");
+        Item newUpdatedItem = new Item("", "");
         this.mockMvc.perform(put("/item/{id}", item.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newUpdatedItem)))
@@ -105,6 +103,23 @@ public class ItemIntegrationTest {
                 .content(objectMapper.writeValueAsString(newUpdatedItem)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void deleteExistingItem() throws Exception {
+        Item item = itemRepository.save(new Item("new item", "test content"));
+        this.mockMvc.perform(delete("/item/{id}", item.getId()))
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andReturn();
+    }
+
+    @Test
+    public void deleteInexistantItem() throws Exception {
+        this.mockMvc.perform(delete("/item/{id}", 0))
+                .andDo(print())
+                .andExpect(status().isNotFound())
                 .andReturn();
     }
 }
