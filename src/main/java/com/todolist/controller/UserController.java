@@ -7,12 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
-    UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<User> saveUser(@RequestBody User user) throws InvalidObjectException {
         User userCreated = userService.createUser(user);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("user", "/user/" + userCreated.getId());
@@ -38,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping({"/{userId}"})
-    public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody User user) throws InvalidObjectException {
         userService.updateUser(userId, user);
         return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }

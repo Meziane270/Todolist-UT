@@ -7,12 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/item")
 public class ItemController {
-    ItemService itemService;
+    private final ItemService itemService;
 
     public ItemController(ItemService itemService) {
         this.itemService = itemService;
@@ -30,13 +31,13 @@ public class ItemController {
     }
 
     @PutMapping({"/{itemId}"})
-    public ResponseEntity<Item> updateItem(@PathVariable("itemId") Long itemId, @RequestBody Item item) {
+    public ResponseEntity<Item> updateItem(@PathVariable("itemId") Long itemId, @RequestBody Item item) throws InvalidObjectException {
         itemService.updateItem(itemId, item);
         return new ResponseEntity<>(itemService.getItemById(itemId), HttpStatus.OK);
     }
 
     @DeleteMapping({"/{itemId}"})
-    public ResponseEntity<User> deleteUser(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<User> deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.deleteItem(itemId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

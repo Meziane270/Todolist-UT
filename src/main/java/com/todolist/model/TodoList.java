@@ -1,14 +1,12 @@
 package com.todolist.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.todolist.service.EmailSenderService;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,12 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
-@Table(name = "T_TodoList")
+@JsonFormat(pattern = "dd/MM/YYYY")
+@Table(name = "T_Todo_List")
 public class TodoList {
     @Singular
-    @OneToMany(mappedBy = "todoList", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn
     private final List<Item> items = new ArrayList<>();
 
     @Id
@@ -29,23 +28,25 @@ public class TodoList {
     private long id;
 
     @NonNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Transient
     private EmailSenderService emailSenderService = new EmailSenderService();
 
-    public void addItem(Item item) {
+    public boolean addItem(Item item) {
         if (getItemsCount() < 10 &&
                 item.isValid() &&
                 !containsItemWithName(item.getName()) &&
-                !lastInsertedItemInLastThirtyMinutes()) {
+                !lastInsertedItemInLastThirtyMinutes(item)) {
             items.add(item);
             item.setTodoList(this);
             if (getItemsCount() == 8) {
                 emailSenderService.sendMail(user.getEmail());
             }
+            return true;
         }
+        return false;
     }
 
     public int getItemsCount() {
@@ -56,11 +57,11 @@ public class TodoList {
         return items.stream().anyMatch(it -> it.getName().equals(name));
     }
 
-    public boolean lastInsertedItemInLastThirtyMinutes() {
+    public boolean lastInsertedItemInLastThirtyMinutes(Item itemToAdd) {
         Item item = items.stream().min(Comparator.comparing(Item::getCreationDate)).orElse(null);
         if (item == null) return false;
-        long now = new Timestamp(new Date().getTime()).getTime() / 60000;
+        long itemCreationTime = itemToAdd.getCreationDate().getTime() / 60000;
         long lastCreatedDate = item.getCreationDate().getTime() / 60000;
-        return now - lastCreatedDate < 30;
+        return itemCreationTime - lastCreatedDate < 30;
     }
 }

@@ -1,45 +1,56 @@
 package com.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
+@JsonFormat(pattern = "dd/MM/YYYY")
 @Table(name = "T_Item")
 public class Item {
     @NonNull
-    @Column
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "todo_list_id")
     @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private TodoList todoList;
 
     @NonNull
-    @Column()
+    @Column(nullable = false)
     private String content;
 
-    @CreationTimestamp
+    @NonNull
     @Column(updatable = false, nullable = false)
     private Timestamp creationDate = new Timestamp(new Date().getTime());
 
     @Id
+    @Singular
     @GeneratedValue
     private long id;
 
+    public Item() {
+        content = "";
+        name = "";
+    }
+
+    public Item(@NonNull String name, @NonNull String content, @NonNull Timestamp creationDate) {
+        this.name = name;
+        this.content = content;
+        this.creationDate = creationDate;
+    }
+
     public boolean isValid() {
-        return true;
+        return !content.isBlank() && !name.isBlank() && content.length() <= 1000;
     }
 
     public int getContentSize() {

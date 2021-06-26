@@ -1,6 +1,7 @@
 package com.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,13 +14,11 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "T_User")
 public class User {
     @Singular
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private final TodoList todoList = new TodoList(this);
 
@@ -41,6 +40,7 @@ public class User {
 
     @NonNull
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @Id
