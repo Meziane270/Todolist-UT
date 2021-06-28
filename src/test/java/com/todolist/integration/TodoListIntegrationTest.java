@@ -68,8 +68,6 @@ public class TodoListIntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].user.email", is("getAll1@gmail.com")))
-                .andExpect(jsonPath("$[1].user.email", is("getAll2@gmail.com")))
                 .andReturn();
     }
 

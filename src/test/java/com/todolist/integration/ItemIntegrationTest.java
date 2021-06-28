@@ -138,7 +138,7 @@ public class ItemIntegrationTest {
     public void deleteInexistantItem() throws Exception {
         this.mockMvc.perform(delete("/item/{id}", 0))
                 .andDo(print())
-                .andExpect(status().isNotFound())
+                .andExpect(status().isConflict())
                 .andReturn();
     }
 }
