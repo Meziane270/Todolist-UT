@@ -20,8 +20,7 @@ import java.util.List;
 @Table(name = "T_Todo_List")
 public class TodoList {
     @Singular
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "todoList")
     private final List<Item> items = new ArrayList<>();
 
     @Id
@@ -31,6 +30,7 @@ public class TodoList {
     @NonNull
     @OneToOne
     @JsonBackReference
+    @JoinColumn(name="user_id")
     private User user;
 
     @Transient

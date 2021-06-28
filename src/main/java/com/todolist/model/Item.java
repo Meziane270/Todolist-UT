@@ -44,13 +44,13 @@ public class Item {
         name = "";
     }
 
-    @JsonIgnore
     public Item(@NonNull String name, @NonNull String content, @NonNull Timestamp creationDate) {
         this.name = name;
         this.content = content;
         this.creationDate = creationDate;
     }
 
+    @JsonIgnore
     public boolean isValid() {
         return !content.isBlank() && !name.isBlank() && content.length() <= 1000;
     }

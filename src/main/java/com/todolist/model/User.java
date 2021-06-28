@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 @Table(name = "T_User")
 public class User {
     @Singular
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private final TodoList todoList = new TodoList(this);
 
     @NonNull
