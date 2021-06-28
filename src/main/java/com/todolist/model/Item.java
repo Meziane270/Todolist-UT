@@ -2,6 +2,7 @@ package com.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,6 +44,7 @@ public class Item {
         name = "";
     }
 
+    @JsonIgnore
     public Item(@NonNull String name, @NonNull String content, @NonNull Timestamp creationDate) {
         this.name = name;
         this.content = content;

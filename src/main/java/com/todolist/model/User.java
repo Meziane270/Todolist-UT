@@ -2,6 +2,7 @@ package com.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,6 @@ import java.util.regex.Pattern;
 public class User {
     @Singular
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonBackReference
     private final TodoList todoList = new TodoList(this);
 
     @NonNull
@@ -47,6 +47,7 @@ public class User {
     @GeneratedValue
     private long id;
 
+    @JsonIgnore
     public boolean isValid() {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +

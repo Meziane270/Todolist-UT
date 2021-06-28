@@ -1,5 +1,6 @@
 package com.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.todolist.service.EmailSenderService;
 import lombok.*;
@@ -28,7 +29,8 @@ public class TodoList {
     private long id;
 
     @NonNull
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
+    @JsonBackReference
     private User user;
 
     @Transient
