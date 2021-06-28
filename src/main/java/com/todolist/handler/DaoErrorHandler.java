@@ -25,12 +25,12 @@ public class DaoErrorHandler {
         model.addAttribute("technicalError", "Une erreur technique est survenue !");
     }
 
-    @ExceptionHandler(DuplicateKeyException.class)
+    @ExceptionHandler({DataAccessException.class, DuplicateKeyException.class})
     public ResponseEntity<Void> duplicateKeyError(HttpServletRequest req, Exception ex) {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({DataAccessException.class, NoSuchElementException.class})
+    @ExceptionHandler({NoSuchElementException.class})
     public ResponseEntity<Void> elementNotFoundError(HttpServletRequest req, Exception ex) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
