@@ -1,5 +1,6 @@
 package com.todolist.integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todolist.model.User;
 import com.todolist.repository.UserRepository;
 import org.junit.Before;
@@ -33,6 +34,10 @@ public class UserIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Before
     public void setup() {
@@ -69,15 +74,10 @@ public class UserIntegrationTest {
 
     @Test
     public void createNewValidUser() throws Exception {
+        User newUser = new User("post@mail.com", "post", "post", "post1234", LocalDate.parse("2000-06-11"));
         this.mockMvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"email\" : \"post@mail.com\",\n" +
-                        "  \"firstname\" : \"post\",\n" +
-                        "  \"lastname\" : \"post\",\n" +
-                        "  \"password\" : \"post1234\",\n" +
-                        " \"birthDate\" : \"2000-06-11\"\n" +
-                        "}")
+                .content(objectMapper.writeValueAsString(newUser))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.email").value("post@mail.com"))
@@ -91,15 +91,10 @@ public class UserIntegrationTest {
         User user = new User("test@mail.com", "test", "test", "test1234", LocalDate.parse("2000-06-11"));
         user = userRepository.save(user);
         long userId = user.getId();
+        User modifUser = new User("update@mail.com", "update", "update", "update123", LocalDate.parse("2000-06-11"));
         this.mockMvc.perform(put("/user/{id}", userId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"email\" : \"update@mail.com\",\n" +
-                        "  \"firstname\" : \"update\",\n" +
-                        "  \"lastname\" : \"update\",\n" +
-                        "  \"password\" : \"update123\",\n" +
-                        " \"birthDate\" : \"2000-06-11\"\n" +
-                        "}")
+                .content(objectMapper.writeValueAsString(modifUser))
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
