@@ -516,7 +516,7 @@
 					"response": []
 				},
 				{
-					"name": "Changement du mot de passe avec mot de passe trop court",
+					"name": "Changement avec mot de passe trop court",
 					"event": [
 						{
 							"listen": "test",
@@ -558,7 +558,7 @@
 					"response": []
 				},
 				{
-					"name": "Changement du mot de passe avec mot de passe conforme",
+					"name": "Changement avec mot de passe conforme",
 					"event": [
 						{
 							"listen": "test",
@@ -641,7 +641,9 @@
 								"exec": [
 									"pm.test(\"Status code is 409\", function () {\r",
 									"    pm.response.to.have.status(409);\r",
-									"});"
+									"});\r",
+									"pm.collectionVariables.unset(\"user_id\");\r",
+									"pm.collectionVariables.unset(\"todolist_id\");"
 								],
 								"type": "text/javascript"
 							}
@@ -666,16 +668,6 @@
 					"response": []
 				}
 			]
-		}
-	],
-	"variable": [
-		{
-			"key": "user_id",
-			"value": ""
-		},
-		{
-			"key": "todolist_id",
-			"value": ""
 		}
 	]
 }
