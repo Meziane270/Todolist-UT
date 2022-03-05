@@ -76,11 +76,10 @@
     </dependencies>
 
     <properties>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
-        <sonar.organization>ennasirimehdi</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
+           <sonar.organization>meziane270</sonar.organization>
+          <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+   </properties>
+         
     <build>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
